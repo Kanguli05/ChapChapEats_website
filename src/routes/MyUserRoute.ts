@@ -17,9 +17,7 @@ router.get("/", jwtCheck, async (req, res, next) => {
 });
 //router.get("/", jwtCheck, jwtParse );
 router.get("/", (req, res, next) => {
-  MyUserController.getCurrentUser(req, res).then((result) => {
-    next(result);
-  }).catch((error) => {
+  MyUserController.getCurrentUser(req, res).catch((error) => {
     next(error);
   });
 });
@@ -29,9 +27,7 @@ router.get("/", (req, res, next) => {
 //router.post("/", MyUserController.createCurrentUser);
 
 router.post("/", (req, res, next) => {
-    MyUserController.createCurrentUser(req, res).then((result) => {
-      next(result);
-    }).catch((error) => {
+    MyUserController.createCurrentUser(req, res).catch((error) => {
       next(error);
     });
 });
