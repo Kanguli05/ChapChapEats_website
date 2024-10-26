@@ -7,8 +7,15 @@ import { ParsedQs } from "qs";
 
 const router = express.Router();
 
-
-router.get("/", jwtCheck, jwtParse as RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>);
+router.get("/", jwtCheck, async (req, res, next) => {
+  try {
+    await jwtParse(req, res, next);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+//router.get("/", jwtCheck, jwtParse );
 router.get("/", (req, res, next) => {
   MyUserController.getCurrentUser(req, res).then((result) => {
     next(result);
