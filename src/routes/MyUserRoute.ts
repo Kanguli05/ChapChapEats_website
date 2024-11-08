@@ -2,8 +2,7 @@ import express, { RequestHandler } from "express";
 import MyUserController from "../controllers/MyUserController";
 import { jwtCheck, jwtParse } from '../middleware/auth';
 import { validateMyUserRequest } from "../middleware/validation";
-import { ParamsDictionary } from "express-serve-static-core";
-import { ParsedQs } from "qs";
+
 
 const router = express.Router();
 
@@ -14,19 +13,19 @@ router.get("/", jwtCheck, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-//router.get("/", jwtCheck, jwtParse );
-router.get("/", (req, res, next) => {
+}, (req, res, next) => {
   MyUserController.getCurrentUser(req, res).catch((error) => {
     next(error);
   });
 });
+//router.get("/", jwtCheck, jwtParse );
+
 //router.get("/", jwtCheck, jwtParse, MyUserController.getCurrentUser)
 
 // router.post("/", (req, res) => MyUserController.createCurrentUser(req, res));
 //router.post("/", MyUserController.createCurrentUser);
 
-router.post("/", (req, res, next) => {
+router.post("/", jwtCheck, (req, res, next) => {
     MyUserController.createCurrentUser(req, res).catch((error) => {
       next(error);
     });
@@ -41,13 +40,11 @@ router.post("/", (req, res, next) => {
     }
 }); */
 
-router.post("/", jwtCheck);
+
 
 //router.put("/", MyUserController.updateCurrentUser);
 router.put("/", (req, res, next) => {
-    MyUserController.updateCurrentUser(req, res).then((result) => {
-      next(result);
-    }).catch((error) => {
+    MyUserController.updateCurrentUser(req, res).catch((error) => {
       next(error);
     });
 });
@@ -62,11 +59,13 @@ router.put("/", (req, res, next) => {
 
 
 //router.put("/",  jwtCheck, validateMyUserRequest);
-router.put("/", jwtCheck, (req, res, next) => {
+router.put("/",  (req, res, next) => {
     validateMyUserRequest.forEach((validation) => {
       validation(req, res, next);
     });
-  });
+  
+  } , jwtCheck );
+  
 
 router.put("/", (req, res, next) => {
     jwtParse(req, res, next);
