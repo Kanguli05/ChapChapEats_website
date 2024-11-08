@@ -36,7 +36,7 @@ router.get("/", jwtCheck, async (req, res, next) => {
 
 // /api/my/restaurant
 //router.post("/", upload.single("imageFile"), MyRestaurantController.createMyRestaurant);
-router.post("/", upload.single("imageFile") , jwtCheck , 
+router.post("/", jwtCheck , 
 
     async (req, res, next) => {
     await jwtParse(req, res, next);

@@ -59,12 +59,12 @@ router.put("/", (req, res, next) => {
 
 
 //router.put("/",  jwtCheck, validateMyUserRequest);
-router.put("/",  (req, res, next) => {
+router.put("/", jwtCheck, (req, res, next) => {
     validateMyUserRequest.forEach((validation) => {
       validation(req, res, next);
     });
   
-  } , jwtCheck );
+  } );
   
 
 router.put("/", (req, res, next) => {
