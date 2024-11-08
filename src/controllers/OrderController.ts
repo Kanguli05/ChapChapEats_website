@@ -97,7 +97,7 @@ const createCheckoutSession = async (req: Request, res: Response, next?: unknown
             return res.status(500).json({message: "Error creating stripe session"});
         }
 
-        await newOrder.save();
+        //await newOrder.save();
 
         res.json({url: session.url});
     
